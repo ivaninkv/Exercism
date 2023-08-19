@@ -1,2 +1,3 @@
 # Exercism
-Exercism CSharp track
+
+Exercism CSharp and Go tracks
