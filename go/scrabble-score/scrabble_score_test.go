@@ -22,3 +22,14 @@ func BenchmarkScore(b *testing.B) {
 		}
 	}
 }
+
+func BenchmarkScoreBest(b *testing.B) {
+	if testing.Short() {
+		b.Skip("skipping benchmark in short mode.")
+	}
+	for i := 0; i < b.N; i++ {
+		for _, test := range scrabbleScoreTests {
+			ScoreBest(test.input)
+		}
+	}
+}
