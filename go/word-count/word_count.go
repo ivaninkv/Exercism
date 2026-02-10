@@ -10,30 +10,31 @@ type Frequency map[string]int
 func WordCount(phrase string) Frequency {
 	freq := make(Frequency)
 
-	phrase = strings.ToLower(phrase)
+	lower := strings.ToLower(phrase)
 
-	var word strings.Builder
-	for _, ch := range phrase {
+	start := -1
+	for i, ch := range lower {
 		if unicode.IsLetter(ch) || unicode.IsDigit(ch) || ch == '\'' {
-			word.WriteRune(ch)
+			if start == -1 {
+				start = i
+			}
 		} else {
-			if word.Len() > 0 {
-				w := word.String()
-
-				w = strings.Trim(w, "'")
-				if len(w) > 0 {
-					freq[w]++
+			if start != -1 {
+				word := lower[start:i]
+				word = strings.Trim(word, "'")
+				if len(word) > 0 {
+					freq[word]++
 				}
-				word.Reset()
+				start = -1
 			}
 		}
 	}
 
-	if word.Len() > 0 {
-		w := word.String()
-		w = strings.Trim(w, "'")
-		if len(w) > 0 {
-			freq[w]++
+	if start != -1 {
+		word := lower[start:]
+		word = strings.Trim(word, "'")
+		if len(word) > 0 {
+			freq[word]++
 		}
 	}
 
